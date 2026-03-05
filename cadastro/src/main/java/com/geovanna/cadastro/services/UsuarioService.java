@@ -42,6 +42,7 @@ usuario.setComplemento(dados.getComplemento());
 usuario.setCep(dados.getCep());
 usuario.setCidade(dados.getCidade());
 usuario.setEstado(dados.getEstado());
+usuario.setFoto(dados.getFoto());
 
 return repository.save(usuario);
 }
@@ -73,4 +74,7 @@ private BCryptPasswordEncoder passwordEncoder;
         }
         return usuario;
     }
+
+
+
 }
