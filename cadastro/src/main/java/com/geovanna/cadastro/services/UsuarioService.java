@@ -3,6 +3,7 @@ package com.geovanna.cadastro.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.geovanna.cadastro.entities.Usuario;
@@ -11,14 +12,16 @@ import com.geovanna.cadastro.repositories.UsuarioRepository;
 @Service
 public class UsuarioService {
    
-    @Autowired
-    private UsuarioRepository repository;
-   
+	@Autowired
+	private UsuarioRepository repository;
+	
+	
     public List<Usuario> listarTodos(){
         return repository.findAll();
     }
    
     public Usuario cadastrar(Usuario usuario) {
+        usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
         return repository.save(usuario);
     }
 
@@ -53,19 +56,21 @@ repository.deleteById(id);
 return true;
 }
 
+@Autowired
+private BCryptPasswordEncoder passwordEncoder;
 
-public Usuario login(String email, String senha) {
-
-    Usuario usuario = repository.findByEmail(email);
-
-    if (usuario == null) {
-        return null;
-    }
-
-    if (usuario.getSenha().equals(senha)) {
+    public Usuario login(String email, String senha) {
+                   
+        Usuario usuario =  repository.findByEmail(email);
+       
+        if (usuario == null) {
+            return null;
+        }
+       
+        // Validar senha com bcrypt
+        if (!passwordEncoder.matches(senha, usuario.getSenha())) {
+            return null;
+        }
         return usuario;
     }
-
-    return null;
-}
 }
