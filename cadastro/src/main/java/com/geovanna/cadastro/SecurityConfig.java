@@ -31,7 +31,6 @@ public class SecurityConfig {
 		}
 
 
-		// Bean do BCryptPasswordEncoder para criptografar e validar senhas
 		@Bean
 		public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
