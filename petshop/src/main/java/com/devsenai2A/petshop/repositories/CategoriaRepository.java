@@ -1,0 +1,11 @@
+package com.devsenai2A.petshop.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.devsenai2A.petshop.entities.Categoria;
+
+@Repository
+public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
+
+}
