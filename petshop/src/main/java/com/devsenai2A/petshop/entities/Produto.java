@@ -1,6 +1,7 @@
 package com.devsenai2A.petshop.entities;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 @Entity
 @Table(name = "produto")
@@ -8,6 +9,7 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonAlias({"id"})
     private Integer id_produto;
 
     @Column(nullable = false)
@@ -21,6 +23,7 @@ public class Produto {
     @Column(columnDefinition = "LONGTEXT")
     private String imagem;
 
+    @JsonAlias({"qtdEstoque", "quantidadeEstoque", "quantidade_estoque", "estoque"})
     private Integer qtd_estoque;
 
     private Boolean ativo = true;
@@ -37,6 +40,14 @@ public class Produto {
 
     public void setId_produto(Integer id_produto) {
         this.id_produto = id_produto;
+    }
+
+    public Integer getId() {
+        return id_produto;
+    }
+
+    public void setId(Integer id) {
+        this.id_produto = id;
     }
 
     public String getNome() {
@@ -59,8 +70,18 @@ public class Produto {
         return preco;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
+    public void setPreco(Object preco) {
+        if (preco == null) {
+            this.preco = null;
+            return;
+        }
+
+        if (preco instanceof Number numero) {
+            this.preco = numero.doubleValue();
+            return;
+        }
+
+        this.preco = Double.valueOf(preco.toString().replace(",", "."));
     }
 
     public String getImagem() {
@@ -77,6 +98,30 @@ public class Produto {
 
     public void setQtd_estoque(Integer qtd_estoque) {
         this.qtd_estoque = qtd_estoque;
+    }
+
+    public Integer getQtdEstoque() {
+        return qtd_estoque;
+    }
+
+    public void setQtdEstoque(Integer qtdEstoque) {
+        this.qtd_estoque = qtdEstoque;
+    }
+
+    public Integer getQuantidadeEstoque() {
+        return qtd_estoque;
+    }
+
+    public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+        this.qtd_estoque = quantidadeEstoque;
+    }
+
+    public Integer getEstoque() {
+        return qtd_estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.qtd_estoque = estoque;
     }
 
     public Boolean getAtivo() {
